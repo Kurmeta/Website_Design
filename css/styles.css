@@ -1,0 +1,60 @@
+/* styles.css */
+
+/* Set the color scheme */
+
+.navbar {
+    background-color: #2196F3 !important; /* Light blue navbar */
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff; /* White text for navbar links */
+}
+
+.card-body {
+    background-color: #2196F3; /* White background for cards */
+}
+
+.card-title {
+    color: #ffffff; /* Dark green text for card titles */
+}
+
+.card-text {
+    color: #ffffff; /* White text for card content */
+}
+
+/* Testimonials */
+.mt-4 {
+    background-color: #2196F3; /* Light blue background for testimonials */
+    padding: 20px;
+    border-radius: 10px;
+    color: #ffffff; /* White text for card content */
+}
+
+
+.navbar-brand {
+ 	
+	color: #ffffff;
+}
+
+.jumbotron {
+
+	background-color: #2196F3 !important;
+   	padding: 20px;
+   	border-radius: 10px;
+    color: #ffffff; /* White text for card content */
+
+}
+
+.mb-4.text-center {
+    color: #2196F3;
+}
+
+.btn-custom {
+    background-color: #ffffff; /* White background */
+    color: #2196F3; /* Blue text color */
+    border-color: #2196F3; /* Blue border color */
+}
+.navbar .custom-toggler {
+    
+    background-color: #ffffff !important; /* Blue text color */
+}
