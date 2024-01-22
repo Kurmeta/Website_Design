@@ -10,40 +10,41 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
-// Check if a category is selected
-$selectedCategory = isset($_GET['category']) ? $_GET['category'] : null;
+$selectedCategory = isset($_GET['category']) ? $mysqli->real_escape_string($_GET['category']) : null;
 
-// If a category is selected, fetch questions from that category
 if ($selectedCategory) {
-    $questionsResult = $mysqli->query("SELECT * FROM quiz WHERE category = '$selectedCategory'");
+    $query = "SELECT * FROM quiz WHERE category = ?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("s", $selectedCategory);
+    $stmt->execute();
+    $questionsResult = $stmt->get_result();
 }
 
-// Initialize variables for result calculation
-$totalQuestions = $questionsResult->num_rows;
-$correctAnswers = 0;
-
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Initialize variables for result calculation
-    $totalQuestions = $questionsResult->num_rows;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $correctAnswers = 0;
+    $userResponses = array(); // To store user responses
 
-    // Loop through submitted answers and check correctness
+    // Rewind the result set pointer
+    $questionsResult->data_seek(0);
+
     while ($question = $questionsResult->fetch_assoc()) {
-        $questionId = $question['id'];
-        $userAnswer = isset($_POST['answer_' . $questionId]) ? $_POST['answer_' . $questionId] : '';
+        $questionTitle = $question['question'];
+        $userAnswer = isset($_POST['answer_' . $question['id']]) ? $_POST['answer_' . $question['id']] : '';
 
-        // Check if the user's answer is correct
+        $userResponses[$questionTitle] = array(
+            'userAnswer' => $question['option_' . strtolower($userAnswer)],
+            'correctAnswer' => $question['option_' . strtolower($question['correct_option'])],
+            'reason' => $question['reason']
+        ); // Store user response with question title, correct answer, and reason
+
         if ($userAnswer === $question['correct_option']) {
             $correctAnswers++;
         }
     }
 
-    // Calculate the result percentage
-    $resultPercentage = ($correctAnswers / $totalQuestions) * 100;
+    $resultPercentage = ($correctAnswers / $questionsResult->num_rows) * 100;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,20 +54,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/styles.css">
-    <!-- Your custom CSS file (if you have one) -->
 </head>
 <body>
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="#">CodeCraft Tutorials</a>
+        <a class="navbar-brand" href="index.php">CodeCraft Tutorials</a>
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="booking.php">Booking</a>
@@ -82,21 +81,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </nav>
 
-<!-- Quiz Questions Section -->
 <section id="quiz-questions" class="container mt-5">
     <?php if ($_SERVER['REQUEST_METHOD'] !== 'POST') : ?>
-        <!-- Display quiz title if the form is not submitted -->
         <h2 class="quiz-title"><?php echo htmlspecialchars($selectedCategory); ?> Quiz</h2>
     <?php endif; ?>
 
     <?php if ($_SERVER['REQUEST_METHOD'] !== 'POST') : ?>
-        <!-- Display quiz questions with Bootstrap radios -->
         <div class="quiz-container">
             <form action="quiz_q.php?category=<?php echo urlencode($selectedCategory); ?>" method="post">
+                <?php $questionsResult->data_seek(0); // Rewind result set pointer ?>
                 <?php while ($question = $questionsResult->fetch_assoc()) : ?>
                     <div class="jumbotron">
                         <h4 class="display-5"><?php echo htmlspecialchars($question['question']); ?></h4>
-                        <?php foreach (['A', 'B', 'C'] as $option) : ?>
+                        <?php foreach (['a', 'b', 'c'] as $option) : ?>
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" name="answer_<?php echo $question['id']; ?>" value="<?php echo $option; ?>" id="option<?php echo $option; ?>_<?php echo $question['id']; ?>" required>
                                 <label class="form-check-label" for="option<?php echo $option; ?>_<?php echo $question['id']; ?>"><?php echo htmlspecialchars($question['option_' . strtolower($option)]); ?></label>
@@ -104,21 +101,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
                     </div>
                 <?php endwhile; ?>
-                <button type="submit" class="btn btn-primary btn-custom">Submit Answers</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-custom" name="submit">Submit Answers</button>
+                </div>
             </form>
         </div>
     <?php else : ?>
-        <!-- Display quiz result -->
         <div class="jumbotron text-center">
             <h4 class="display-4 quiz-result-title">Quiz Result</h4>
             <p class="lead">Correct Answers: <?php echo $correctAnswers; ?></p>
-            <p class="lead">Total Questions: <?php echo $totalQuestions; ?></p>
+            <p class="lead">Total Questions: <?php echo $questionsResult->num_rows; ?></p>
             <p class="lead">Percentage: <?php echo number_format($resultPercentage, 2); ?>%</p>
-            <!-- Return button to go back to quiz category selection -->
-            <a href="quiz.php" class="btn btn-secondary btn-custom">Return</a>
         </div>
-    <?php endif; ?>
-</section>
+        <h5 class="mt-4 text-center">Your Responses:</h5>
+        <?php foreach ($userResponses as $questionTitle => $responses) : ?>
+            <div class="jumbotron text-center">
+            <p><?php echo "{$questionTitle} <br><br> Your Answer - {$responses['userAnswer']} <br> Correct Answer - {$responses['correctAnswer']} <br><br> Reason - {$responses['reason']}"; ?></p>
+            </div>
+        <?php endforeach; ?>
+        <div class="text-center">   
+            <a href="quiz.php" class="btn btn-secondary btn-custom mt-4">Return</a>
+        </div>
+
+<?php endif; ?>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
