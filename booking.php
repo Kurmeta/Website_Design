@@ -83,17 +83,113 @@
                 <div class="form-group">
                     <label for="select_course">Select Course:</label>
                     <select class="form-control" id="select_course" required>
-                        <option value="Programming Fundamentals">Programming Fundamentals</option>
-                        <option value="Web Development">Web Development</option>
-                        <option value="Python Mastery">Python Mastery</option>
+                        <option value="Programming Fundamentals" data-cost="50">Programming Fundamentals</option>
+                        <option value="Web Development" data-cost="100">Web Development</option>
+                        <option value="Python Mastery" data-cost="75">Python Mastery</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-custom">Book Appointment</button>
+                <!-- Display the selected course cost here -->
+                <div class="form-group">
+                    <label for="courseCost">Course Cost (£):</label>
+                    <input type="text" class="form-control" id="courseCost" readonly>
+                </div>
+                <!-- Button to launch the payment modal -->
+                <button type="button" class="btn btn-primary launch" data-toggle="modal" data-target="#paymentModal">
+                    <i class="fa fa-rocket"></i> Pay Now
+                </button>
             </form>
         </div>
     </div>
-
 </section>
+
+<!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <!-- Payment Form Modal -->
+                <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-right">
+                                    <i class="fa fa-close close" data-dismiss="modal"></i>
+                                </div>
+                                <div class="tabs mt-3">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link active" id="visa-tab" data-toggle="tab" href="#visa" role="tab"
+                                                aria-controls="visa" aria-selected="true">
+                                                <img src="https://i.imgur.com/sB4jftM.png" width="80">
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" id="paypal-tab" data-toggle="tab" href="#paypal" role="tab"
+                                                aria-controls="paypal" aria-selected="false">
+                                                <img src="https://i.imgur.com/yK7EDD1.png" width="80">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="visa" role="tabpanel"
+                                            aria-labelledby="visa-tab">
+                                            <div class="mt-4 mx-4">
+                                                <div class="text-center">
+                                                    <h5>Credit card</h5>
+                                                </div>
+                                                <div class="form mt-3">
+                                                    <div class="inputbox">
+                                                        <input type="text" name="name" class="form-control" required="required">
+                                                        <span>Cardholder Name</span>
+                                                    </div>
+                                                    <div class="inputbox">
+                                                        <input type="text" name="name" min="1" max="999" class="form-control"
+                                                            required="required">
+                                                        <span>Card Number</span>
+                                                        <i class="fa fa-eye"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-row">
+                                                        <div class="inputbox">
+                                                            <input type="text" name="name" min="1" max="999"
+                                                                class="form-control" required="required">
+                                                            <span>Expiration Date</span>
+                                                        </div>
+                                                        <div class="inputbox">
+                                                            <input type="text" name="name" min="1" max="999"
+                                                                class="form-control" required="required">
+                                                            <span>CVV</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="px-5 pay">
+                                                        <button class="btn btn-success btn-block">Add card</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="paypal" role="tabpanel"
+                                            aria-labelledby="paypal-tab">
+                                            <div class="px-5 mt-5">
+                                                <div class="inputbox">
+                                                    <input type="text" name="name" class="form-control" required="required">
+                                                    <span>Paypal Email Address</span>
+                                                </div>
+                                                <div class="pay px-5">
+                                                    <button class="btn btn-primary btn-block">Add paypal</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Include necessary JavaScript libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -147,7 +243,7 @@
             $('#bookingAlert').hide();
 
             var newEvent = {
-                title: userName,
+                title: `${userName} - ${selectedCourse}`,
                 start: moment(`${selectedDate} ${selectedTime}`, 'YYYY-MM-DD HH:mm').format(),
                 end: moment(`${selectedDate} ${selectedTime}`, 'YYYY-MM-DD HH:mm').add(1, 'hours').format(),
                 course: selectedCourse, // Assign the selected course
@@ -191,8 +287,54 @@
                 return slot.date === selectedDate && slot.time === selectedTime;
             });
         }
+
+        // Update course cost when a course is selected
+        $('#select_course').change(function () {
+            var selectedCourse = $(this).find(':selected');
+            var courseCost = selectedCourse.data('cost');
+            $('#courseCost').val(courseCost);
+        });
+
+        // Additional Information Form Submission
+        $('#additionalInfoForm').submit(function (event) {
+            event.preventDefault();
+
+            // Retrieve values from the additional information form
+            var cardHolderName = $('#cardHolderName').val();
+            var cardNumber = $('#cardNumber').val();
+            var expiryDate = $('#expiryDate').val();
+            var cvc = $('#cvc').val();
+            var email = $('#email').val();
+            var selectedCourse = $('#select_course').val();
+            var courseCost = $('#courseCost').val();
+
+            // Perform any additional processing or validation as needed
+
+            // Add the event to the calendar
+            var selectedDate = $('#selectedDate').val();
+            var selectedTime = $('#selectedTime').val();
+            var userName = $('#userName').val();
+
+            var newEvent = {
+                title: `${userName} - ${selectedCourse}`,
+                start: moment(`${selectedDate} ${selectedTime}`, 'YYYY-MM-DD HH:mm').format(),
+                end: moment(`${selectedDate} ${selectedTime}`, 'YYYY-MM-DD HH:mm').add(1, 'hours').format(),
+                course: selectedCourse,
+                color: 'Black'
+            };
+
+            calendar.fullCalendar('renderEvent', newEvent, true);
+
+            // Close the modal
+            $('#additionalInfoModal').modal('hide');
+
+            // Display success message (you may customize this part)
+            alert('Additional information submitted successfully!');
+        });
     });
 </script>
+
+
 
 
 
