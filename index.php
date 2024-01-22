@@ -13,20 +13,23 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="#">CodeCraft Tutorials</a>
+        <a class="navbar-brand" href="#">Coding Legend Courses</a>
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="booking.php">Booking</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="quiz.php">Quiz</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="results.php">Results</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="payment.php">Payment</a>
@@ -39,7 +42,7 @@
 <!-- Homepage -->
 <section id="home" class="container mt-5">
     <div class="jumbotron text-center">
-        <h1 class="display-4">Welcome to CodeCraft Tutorials</h1>
+        <h1 class="display-4">Welcome to Coding Legend Courses</h1>
         <p class="lead">Unlock Your Potential in Computing with a Dedicated Tutor</p>
         <p>Hi, I'm Sarah Johnson, your experienced and passionate computing tutor. With a background in Computer Science and a wealth of industry experience, I am dedicated to guiding you through the exciting world of programming and technology.</p>
         <p>Whether you're just starting your coding journey or aiming to master advanced concepts, I'm here to provide clear explanations, hands-on exercises, and a supportive learning environment. My goal is to empower you to become a confident and skilled coder.</p>

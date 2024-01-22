@@ -31,20 +31,23 @@ $categories = $categoryResult->fetch_all(MYSQLI_ASSOC);
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="#">CodeCraft Tutorials</a>
+        <a class="navbar-brand" href="#">Coding Legend Courses</a>
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="booking.php">Booking</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="quiz.php">Quiz</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="results.php">Results</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="payment.php">Payment</a>
@@ -69,7 +72,9 @@ $categories = $categoryResult->fetch_all(MYSQLI_ASSOC);
             </div>
         <?php endforeach; ?>
     </div>
+
 </section>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>

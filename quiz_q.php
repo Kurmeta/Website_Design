@@ -43,6 +43,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     }
 
     $resultPercentage = ($correctAnswers / $questionsResult->num_rows) * 100;
+
+     // Collect user's name
+     $userName = isset($_POST['user_name']) ? $mysqli->real_escape_string($_POST['user_name']) : 'Anonymous';
+
+     // Save quiz results to the database
+     $insertQuery = "INSERT INTO quiz_results (user_name, quiz_category, correct_answers, total_questions, percentage, user_responses) VALUES (?, ?, ?, ?, ?, ?)";
+     $insertStmt = $mysqli->prepare($insertQuery);
+     $insertStmt->bind_param("ssiiis", $userName, $selectedCategory, $correctAnswers, $questionsResult->num_rows, $resultPercentage, json_encode($userResponses));
+     $insertStmt->execute();
+ 
 }
 ?>
 <!DOCTYPE html>
@@ -56,9 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+    
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="index.php">CodeCraft Tutorials</a>
+        <a class="navbar-brand" href="#">Coding Legend Courses</a>
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -72,6 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="quiz.php">Quiz</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="results.php">Results</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="payment.php">Payment</a>
@@ -101,6 +115,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         <?php endforeach; ?>
                     </div>
                 <?php endwhile; ?>
+
+                <div class="jumbotron text-center">
+                    <label for="user_name">Would you Like to submit your results, If so Enter your name below:</label>
+                    <input type="text" class="form-control" id="user_name" name="user_name" required>
+                </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-custom" name="submit">Submit Answers</button>
                 </div>
