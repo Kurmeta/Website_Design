@@ -83,7 +83,7 @@
         </div>
 
         <!-- Alert for Already Booked Slot -->
-        <div class="row mt-4">
+        <div class="row mt-4 custom">
             <div class="col-md-6 offset-md-3">
                 <div class="alert alert-danger" role="alert" style="display: none;" id="bookingAlert">
                     This time slot is already booked. Please choose another slot.

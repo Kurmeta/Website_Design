@@ -30,7 +30,6 @@
     color: #ffffff; /* White text for card content */
 }
 
-
 .navbar-brand {
  	
 	color: #ffffff;
@@ -57,4 +56,9 @@
 .navbar .custom-toggler {
     
     background-color: #ffffff !important; /* Blue text color */
+}
+.quiz-title {
+    text-align: center !important;
+    color: #2196F3 !important;
+    padding-bottom: 2%; /* Change the color to your desired value */
 }
