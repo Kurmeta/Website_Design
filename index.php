@@ -10,7 +10,6 @@
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="#">Coding Legend Courses</a>
@@ -32,7 +31,7 @@
                     <a class="nav-link" href="results.php">Results</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="payment.php">Payment</a>
+                    <a class="nav-link" href="search.php">Search</a>
                 </li>
             </ul>
         </div>
@@ -54,13 +53,13 @@
 <section id="subjects" class="container mt-5">
    	<h2 class="mb-4 text-center">Subjects and Services</h2>
 	<div class="card-deck">
-  <div class="card text-center">
-    <img class="card-img-top" src="./img/1.jpg" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">Programming Fundamentals</h5>
-      <p class="card-text">Build a solid foundation in coding with a focus on algorithms, data structures, and problem-solving techniques. Perfect for beginners!</p>
-    </div>
-  </div>
+        <div class="card text-center">
+            <img class="card-img-top" src="./img/1.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Programming Fundamentals</h5>
+                <p class="card-text">Build a solid foundation in coding with a focus on algorithms, data structures, and problem-solving techniques. Perfect for beginners!</p>
+            </div>
+        </div>
   <div class="card text-center">
     <img class="card-img-top" src="./img/2.jpg" alt="Card image cap">
     <div class="card-body">
@@ -86,7 +85,6 @@
     </div>
 </section>
 
-<!-- Bootstrap JS and Popper.js -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

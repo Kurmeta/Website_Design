@@ -50,7 +50,7 @@ $categories = $categoryResult->fetch_all(MYSQLI_ASSOC);
                     <a class="nav-link" href="results.php">Results</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="payment.php">Payment</a>
+                    <a class="nav-link" href="search.php">Search</a>
                 </li>
             </ul>
         </div>
