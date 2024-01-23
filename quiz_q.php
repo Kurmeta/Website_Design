@@ -88,6 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                     <a class="nav-link" href="results.php">Results</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="Payment.php">Payment</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="search.php">Search</a>
                 </li>
             </ul>
