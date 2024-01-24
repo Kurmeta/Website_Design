@@ -180,7 +180,7 @@ $conn->close();
                     </div>
                     <!-- User name input -->
                     <div class="form-group">
-                        <label for="userName">Your Name:</label>
+                        <label for="userName">Your Email:</label>
                         <input type="email" class="form-control" id="userName" name="userName" required>
                     </div>
                     <!-- Course selection -->

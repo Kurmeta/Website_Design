@@ -74,7 +74,7 @@
 	<div class="card-deck">
         <!-- Card 1: Programming Fundamentals -->
         <div class="card text-center">
-            <img class="card-img-top" src="./img/1.jpg" alt="Card image cap">
+            <img class="card-img-top" src="./img/1.jpg" alt="Picture of Html Code from a side on angle">
             <div class="card-body">
                 <h5 class="card-title">Programming Fundamentals</h5>
                 <p class="card-text">Build a solid foundation in coding with a focus on algorithms, data structures, and problem-solving techniques. Perfect for beginners!</p>
@@ -83,7 +83,7 @@
         
         <!-- Card 2: Web Development -->
         <div class="card text-center">
-            <img class="card-img-top" src="./img/2.jpg" alt="Card image cap">
+            <img class="card-img-top" src="./img/2.jpg" alt="Cartoon Computer with Someone sitting on it Like a seat with another Laptop on their lap">
             <div class="card-body">
                 <h5 class="card-title">Web Development</h5>
                 <p class="card-text">Create dynamic and interactive websites. Learn HTML, CSS, JavaScript, and popular frameworks to bring your web projects to life.</p>
@@ -92,7 +92,7 @@
         
         <!-- Card 3: Python Mastery -->
         <div class="card text-center">
-            <img class="card-img-top" src="./img/3.jpg" alt="Card image cap">
+            <img class="card-img-top" src="./img/3.jpg" alt="Python Logo">
             <div class="card-body">
                 <h5 class="card-title">Python Mastery</h5>
                 <p class="card-text">Explore the versatility of Python programming. From basic syntax to advanced topics like machine learning and data analysis.</p>

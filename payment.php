@@ -57,7 +57,7 @@
             <div class="form-group">
                 <!-- Input field for entering the name to retrieve unpaid bookings -->
                 <div class="jumbotron">
-                    <label for="search_username">Enter Name to Retrieve Unpaid Bookings:</label>
+                    <label for="search_username">Enter Email to Retrieve Unpaid Bookings:</label>
                     <input type="text" class="form-control" id="search_username" name="search_username" required>
                 </div>
             </div>
